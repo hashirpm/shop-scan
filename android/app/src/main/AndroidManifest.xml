@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.shopscan">
    <application
-        android:label="shopscan"
+        android:label="Shop Scan"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
