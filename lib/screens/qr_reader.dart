@@ -3,9 +3,14 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
+import 'package:shopscan/screens/login.dart';
 import 'package:shopscan/screens/qr_generate.dart';
+import 'package:shopscan/services/firebase/auth_services.dart';
+import 'package:shopscan/styles/button_styles.dart';
+import 'package:shopscan/styles/colours.dart';
 
 class QrReader extends StatefulWidget {
+  static const routeName = '/qr-reader';
   @override
   _QrReaderState createState() => _QrReaderState();
 }
@@ -27,6 +32,25 @@ class _QrReaderState extends State<QrReader> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: CustomColors.peach,
+        elevation: 0,
+        toolbarHeight: 80,
+      leading: TextButton(
+          child: CircleAvatar(
+            backgroundColor: Colors.orange,
+            radius: 23,
+            child: Icon(Icons.login, color: Colors.black),
+          ),
+          onPressed: () async {
+            await AuthServices.signOut();
+            Navigator.of(context).pushReplacementNamed(LogIn.routeName);
+            setState(() {
+             
+            });
+          },
+        ),
+      ),
       body: Column(
         children: <Widget>[
           Expanded(flex: 4, child: _buildQrView(context)),
