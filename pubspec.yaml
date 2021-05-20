@@ -33,7 +33,7 @@ dependencies:
   fluttertoast: ^8.0.3
   flutter_svg: ^0.22.0
   image_picker: ^0.7.4
-  flutter_spinkit: "^4.1.2"
+
  
 
   # firebase dependencies
@@ -42,6 +42,7 @@ dependencies:
   google_sign_in: ^5.0.2
   cloud_firestore: ^2.0.0
   firebase_storage: ^8.0.5
+  flutter_spinkit: ^5.0.0
 
 dev_dependencies:
   flutter_test:
