@@ -91,8 +91,7 @@ class _SignUpState extends State<SignUp> {
       print("Signed Up");
       ShowToast.toast1("Account Created");
       // route to home
-      Navigator.pop(context);
-      Navigator.pop(context);
+     Navigator.of(context).pushReplacementNamed(QrReader.routeName);
     }
   }
 
