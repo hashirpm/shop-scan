@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
@@ -33,29 +32,27 @@ class _QrReaderState extends State<QrReader> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: CustomColors.peach,
+        backgroundColor: Colors.white,
         elevation: 0,
         toolbarHeight: 80,
-      leading: TextButton(
+        leading: TextButton(
           child: CircleAvatar(
-            backgroundColor: Colors.orange,
+            backgroundColor: Colors.blue,
             radius: 23,
             child: Icon(Icons.login, color: Colors.black),
           ),
           onPressed: () async {
             await AuthServices.signOut();
             Navigator.of(context).pushReplacementNamed(LogIn.routeName);
-            setState(() {
-             
-            });
+            setState(() {});
           },
         ),
       ),
       body: Column(
         children: <Widget>[
-          Expanded(flex: 4, child: _buildQrView(context)),
+          Expanded(flex: 5, child: _buildQrView(context)),
           Expanded(
-            flex: 1,
+            flex: 2,
             child: FittedBox(
               fit: BoxFit.contain,
               child: Column(
@@ -65,14 +62,14 @@ class _QrReaderState extends State<QrReader> {
                     Text(
                         'Barcode Type: ${describeEnum(result!.format)}   Data: ${result!.code}')
                   else
-                    Text('Scan a code'),
+                    Text('Scan a code!'),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    // mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
                       Container(
                         margin: EdgeInsets.all(8),
-                        child: ElevatedButton(
+                        child: TextButton(
                             onPressed: () async {
                               await controller?.toggleFlash();
                               setState(() {});
@@ -80,13 +77,19 @@ class _QrReaderState extends State<QrReader> {
                             child: FutureBuilder(
                               future: controller?.getFlashStatus(),
                               builder: (context, snapshot) {
-                                return Text('Flash: ${snapshot.data}');
+                                var icon = (snapshot.data == false)
+                                    ? Icon(Icons.flash_off)
+                                    : Icon(Icons.flash_on);
+                                return CircleAvatar(
+                                  child: icon,
+                                );
+                                // return Text('Flash: ${snapshot.data}');
                               },
                             )),
                       ),
                       Container(
                         margin: EdgeInsets.all(8),
-                        child: ElevatedButton(
+                        child: TextButton(
                             onPressed: () async {
                               await controller?.flipCamera();
                               setState(() {});
@@ -94,12 +97,12 @@ class _QrReaderState extends State<QrReader> {
                             child: FutureBuilder(
                               future: controller?.getCameraInfo(),
                               builder: (context, snapshot) {
-                                if (snapshot.data != null) {
-                                  return Text(
-                                      'Camera facing ${describeEnum(snapshot.data!)}');
-                                } else {
-                                  return Text('loading');
-                                }
+                                var icon = (snapshot.data == CameraFacing.back)
+                                    ? Icon(Icons.camera_front)
+                                    : Icon(Icons.camera_rear);
+                                return CircleAvatar(
+                                  child: icon,
+                                );
                               },
                             )),
                       )
@@ -109,31 +112,33 @@ class _QrReaderState extends State<QrReader> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
+                      // Container(
+                      //   margin: EdgeInsets.all(8),
+                      //   child: ElevatedButton(
+                      //     onPressed: () async {
+                      //       await controller?.pauseCamera();
+                      //     },
+                      //     child: Text('pause', style: TextStyle(fontSize: 20)),
+                      //   ),
+                      // ),
+                      // Container(
+                      //   margin: EdgeInsets.all(8),
+                      //   child: ElevatedButton(
+                      //     onPressed: () async {
+                      //       await controller?.resumeCamera();
+                      //     },
+                      //     child: Text('resume', style: TextStyle(fontSize: 20)),
+                      //   ),
+                      // ),
                       Container(
                         margin: EdgeInsets.all(8),
                         child: ElevatedButton(
                           onPressed: () async {
-                            await controller?.pauseCamera();
+                            Navigator.of(context)
+                                .pushNamed(GenerateQr.routeName);
                           },
-                          child: Text('pause', style: TextStyle(fontSize: 20)),
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.all(8),
-                        child: ElevatedButton(
-                          onPressed: () async {
-                            await controller?.resumeCamera();
-                          },
-                          child: Text('resume', style: TextStyle(fontSize: 20)),
-                        ),
-                      ),
-                       Container(
-                        margin: EdgeInsets.all(8),
-                        child: ElevatedButton(
-                          onPressed: () async {
-                            Navigator.of(context).pushNamed(GenerateQr.routeName);
-                          },
-                          child: Text('Generate QR', style: TextStyle(fontSize: 20)),
+                          child: Text('Generate QR',
+                              style: TextStyle(fontSize: 20)),
                         ),
                       )
                     ],
