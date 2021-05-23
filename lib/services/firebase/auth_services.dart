@@ -45,12 +45,10 @@ abstract class AuthServices {
 
   static Future<bool> signInWithGoogle() async {
     try {
-      
       final googleUser = await _googleSignIn.signIn();
-    
-     
+
       var authentication = googleUser!.authentication;
-            final googleAuth = await authentication;
+      final googleAuth = await authentication;
       final credential = GoogleAuthProvider.credential(
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,

@@ -58,11 +58,9 @@ class _QrReaderState extends State<QrReader> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
-                  if (result != null)
-                    Text(
-                        'Barcode Type: ${describeEnum(result!.format)}   Data: ${result!.code}')
-                  else
-                    Text('Scan a code!'),
+                  if (result != null) Text(
+                      // Barcode Type: ${describeEnum(result!.format)}
+                      'Data: ${result!.code}') else Text('Scan a code!'),
                   Row(
                     // mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
