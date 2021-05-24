@@ -2,8 +2,12 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:vibration/vibration.dart';
+import 'package:intl/intl.dart';
 import 'package:shopscan/services/firebase/storage_services.dart';
 import 'package:shopscan/services/misc/filter_data.dart';
+import 'package:shopscan/services/misc/overlays.dart';
+import 'package:shopscan/services/misc/toast.dart';
 
 abstract class FirestoreServices {
   static FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -36,19 +40,24 @@ abstract class FirestoreServices {
   //   }
   // }
 
-  static Future<bool> userSetup(String username) async {
+  static Future createUser(
+    String username,
+    String phone,
+    String pin,
+    bool? vaccinated,
+  ) async {
     try {
       CollectionReference users = _firestore.collection('Users');
-      FirebaseAuth auth = FirebaseAuth.instance;
-      String uid = auth.currentUser!.uid.toString();
-      users.add({'username': username, 'uid': uid});
-      return true;
+      await users.doc(_auth.currentUser!.uid).set({
+        'name': username,
+        'phone': int.parse(phone),
+        'pin': int.parse(pin),
+        'vaccinated': vaccinated
+      });
     } on Exception catch (e) {
       print(e);
-      return false;
     } catch (e) {
       print(e);
-      return false;
     }
   }
 
@@ -64,6 +73,25 @@ abstract class FirestoreServices {
         data = {'displayName': _auth.currentUser!.displayName};
 
       return data;
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
+
+  static Future onScan(String scanUid) async {
+    try {
+      CollectionReference users = _firestore.collection('Users');
+      await users.doc(_auth.currentUser!.uid).collection('YouVisited').add({
+        'uid': scanUid,
+        'time': DateFormat('yMMMMd').format(DateTime.now())
+      });
+      await users.doc(scanUid).collection('VisitedYou').add({
+        'uid': _auth.currentUser!.uid,
+        'time': DateFormat('yMMMMd').format(DateTime.now())
+      });
+      ShowToast.toast1("Added to your recent visits");
+      Vibration.vibrate(amplitude: 255);
     } catch (e) {
       print(e);
       return null;

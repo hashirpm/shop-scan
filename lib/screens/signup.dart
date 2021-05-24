@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+// import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shopscan/screens/qr_reader.dart';
 import 'package:shopscan/services/firebase/auth_services.dart';
 import 'package:shopscan/services/misc/overlays.dart';
@@ -33,9 +33,12 @@ class _SignUpState extends State<SignUp> {
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   // controllers
-  TextEditingController _usernameCtrl = TextEditingController();
+  TextEditingController _nameCtrl = TextEditingController();
   TextEditingController _emailCtrl = TextEditingController();
   TextEditingController _passwordCtrl = TextEditingController();
+  TextEditingController _phnoCtrl = TextEditingController();
+  TextEditingController _pincodeCtrl = TextEditingController();
+  bool? _isVaccinated = false;
 
   // form validation
   void validate() {
@@ -65,7 +68,12 @@ class _SignUpState extends State<SignUp> {
 
     ShowOverlay.overlay1(context);
     var authInfo = await AuthServices.signUp(
-        _emailCtrl.text, _passwordCtrl.text, _usernameCtrl.text);
+        _emailCtrl.text,
+        _passwordCtrl.text,
+        _nameCtrl.text,
+        _phnoCtrl.text,
+        _pincodeCtrl.text,
+        _isVaccinated);
     ShowOverlay.stop();
 
     setState(() {
@@ -75,7 +83,7 @@ class _SignUpState extends State<SignUp> {
       print("Signed Up");
       ShowToast.toast1("Account Created");
       // route to home
-    Navigator.of(context).pushReplacementNamed(QrReader.routeName);
+      Navigator.of(context).pushReplacementNamed(QrReader.routeName);
     } else {
       print("error");
       setState(() {
@@ -91,7 +99,7 @@ class _SignUpState extends State<SignUp> {
       print("Signed Up");
       ShowToast.toast1("Account Created");
       // route to home
-     Navigator.of(context).pushReplacementNamed(QrReader.routeName);
+      Navigator.of(context).pushReplacementNamed(QrReader.routeName);
     }
   }
 
@@ -99,7 +107,6 @@ class _SignUpState extends State<SignUp> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        
         backgroundColor: Colors.white,
         shadowColor: Colors.transparent,
       ),
@@ -127,7 +134,7 @@ class _SignUpState extends State<SignUp> {
                 Container(
                   width: double.infinity,
                   child: Text(
-                    "Sign up to see our top picks for you",
+                    "Sign up to join our network",
                     style: TextStyle(fontSize: 18),
                   ),
                 ),
@@ -140,11 +147,11 @@ class _SignUpState extends State<SignUp> {
                   autovalidateMode: _autovalidate,
                   child: Column(
                     children: <Widget>[
-                      // Username
+                      // Name
                       Container(
                         width: double.infinity,
                         child: Text(
-                          "Username",
+                          "Name",
                           style: TextStyles.label,
                         ),
                       ),
@@ -152,11 +159,11 @@ class _SignUpState extends State<SignUp> {
                       SizedBox(height: 10),
 
                       TextFormField(
-                        controller: _usernameCtrl,
-                        decoration: InputStyles.username,
+                        controller: _nameCtrl,
+                        decoration: InputStyles.profileFields("Name"),
                         cursorColor: Colors.brown,
                         keyboardType: TextInputType.name,
-                        validator: Validate.username,
+                        validator: Validate.name,
                       ),
 
                       SizedBox(height: 30),
@@ -215,9 +222,78 @@ class _SignUpState extends State<SignUp> {
                         keyboardType: TextInputType.visiblePassword,
                         validator: Validate.password,
                       ),
+
+                      SizedBox(height: 30),
+
+                      Container(
+                        width: double.infinity,
+                        child: Text(
+                          "Phone number",
+                          style: TextStyles.label,
+                        ),
+                      ),
+
+                      SizedBox(height: 10),
+
+                      TextFormField(
+                        controller: _phnoCtrl,
+                        decoration: InputStyles.profileFields("Phone no"),
+                        cursorColor: Colors.brown,
+                        keyboardType: TextInputType.phone,
+                        validator: Validate.phone,
+                      ),
+
+                      SizedBox(height: 30),
+
+                      Container(
+                        width: double.infinity,
+                        child: Text(
+                          "Pin code",
+                          style: TextStyles.label,
+                        ),
+                      ),
+
+                      SizedBox(height: 10),
+
+                      TextFormField(
+                        controller: _pincodeCtrl,
+                        decoration: InputStyles.profileFields("Pin code"),
+                        cursorColor: Colors.brown,
+                        keyboardType: TextInputType.number,
+                        validator: Validate.pin,
+                      ),
                     ],
                   ),
                 ),
+
+                SizedBox(height: 20),
+
+                Row(
+                  children: <Widget>[
+                    Text(
+                      "Vaccinated?",
+                      style: TextStyle(
+                        fontWeight: FontWeight.w500,
+                        fontSize: 18,
+                      ),
+                    ),
+                    Transform.scale(
+                      scale: 1.3,
+                      child: Checkbox(
+                        value: _isVaccinated,
+                        shape: CircleBorder(),
+                        checkColor: Colors.brown,
+                        activeColor: Colors.white,
+                        onChanged: (bool? value) {
+                          setState(() {
+                            _isVaccinated = value;
+                          });
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+
                 SizedBox(height: 30),
 
                 Container(
@@ -236,47 +312,47 @@ class _SignUpState extends State<SignUp> {
                   ),
                 ),
 
-                SizedBox(height: 50),
+                SizedBox(height: 10),
 
-                Text("Or Sign Up With"),
+                // Text("Or Sign Up With"),
 
-                SizedBox(height: 20),
+                // SizedBox(height: 20),
 
-                Container(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      googleSignIn();
-                    },
-                    child: Row(
-                      children: <Widget>[
-                        SvgPicture.asset(
-                          "assets/icons/google.svg",
-                          width: 25,
-                        ),
-                        SizedBox(width: 12),
-                        Expanded(
-                          child: Container(
-                            padding: EdgeInsets.fromLTRB(0, 7.5, 0, 7.5),
-                            decoration: BoxDecoration(
-                              border: Border(
-                                  left: BorderSide(
-                                      color: Colors.white, width: 0.25)),
-                            ),
-                            child: Center(
-                              child: Text(
-                                "Login with Google",
-                                style: TextStyles.buttontext1,
-                              ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(width: 37)
-                      ],
-                    ),
-                    style: ButtonStyles.button3,
-                  ),
-                ),
+                // Container(
+                //   width: double.infinity,
+                //   child: ElevatedButton(
+                //     onPressed: () {
+                //       googleSignIn();
+                //     },
+                //     child: Row(
+                //       children: <Widget>[
+                //         SvgPicture.asset(
+                //           "assets/icons/google.svg",
+                //           width: 25,
+                //         ),
+                //         SizedBox(width: 12),
+                //         Expanded(
+                //           child: Container(
+                //             padding: EdgeInsets.fromLTRB(0, 7.5, 0, 7.5),
+                //             decoration: BoxDecoration(
+                //               border: Border(
+                //                   left: BorderSide(
+                //                       color: Colors.white, width: 0.25)),
+                //             ),
+                //             child: Center(
+                //               child: Text(
+                //                 "Login with Google",
+                //                 style: TextStyles.buttontext1,
+                //               ),
+                //             ),
+                //           ),
+                //         ),
+                //         SizedBox(width: 37)
+                //       ],
+                //     ),
+                //     style: ButtonStyles.button3,
+                //   ),
+                // ),
 
                 SizedBox(height: 20),
               ],

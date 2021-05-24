@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:shopscan/services/firebase/firestore_services.dart';
 
 abstract class AuthServices {
   static FirebaseAuth _auth = FirebaseAuth.instance;
@@ -25,12 +26,22 @@ abstract class AuthServices {
     }
   }
 
-  static Future signUp(String email, String password, String username) async {
+  static Future signUp(
+    String email,
+    String password,
+    String username,
+    String phone,
+    String pin,
+    bool? vaccinated,
+  ) async {
     var authInfo = {"email": true};
     try {
       await _auth.createUserWithEmailAndPassword(
-          email: email, password: password);
+        email: email,
+        password: password,
+      );
       await _auth.currentUser!.updateProfile(displayName: username);
+      await FirestoreServices.createUser(username, phone, pin, vaccinated);
       return authInfo;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'email-already-in-use') {

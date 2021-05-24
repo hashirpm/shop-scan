@@ -10,7 +10,7 @@ import 'package:shopscan/styles/input_styles.dart';
 import 'package:shopscan/styles/text_styles.dart';
 
 class LogIn extends StatefulWidget {
-  static const routeName= '/login';
+  static const routeName = '/login';
   @override
   _LogInState createState() => _LogInState();
 }
@@ -109,7 +109,6 @@ class _LogInState extends State<LogIn> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        
         backgroundColor: Colors.white,
         shadowColor: Colors.transparent,
       ),
@@ -137,7 +136,7 @@ class _LogInState extends State<LogIn> {
                 Container(
                   width: double.infinity,
                   child: Text(
-                    "Login to see our top picks for you",
+                    "Login to our network",
                     style: TextStyle(fontSize: 18),
                   ),
                 ),
@@ -240,50 +239,50 @@ class _LogInState extends State<LogIn> {
                   ),
                 ),
 
-                SizedBox(height: 50),
-
-                Text("Or Login With"),
-
-                SizedBox(height: 20),
-
-                Container(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: () {
-              
-                      googleSignIn();
-                    },
-                    child: Row(
-                      children: <Widget>[
-                        SvgPicture.asset(
-                          "assets/icons/google.svg",
-                          width: 25,
-                        ),
-                        SizedBox(width: 12),
-                        Expanded(
-                          child: Container(
-                            padding: EdgeInsets.fromLTRB(0, 7.5, 0, 7.5),
-                            decoration: BoxDecoration(
-                              border: Border(
-                                  left: BorderSide(
-                                      color: Colors.white, width: 0.25)),
-                            ),
-                            child: Center(
-                              child: Text(
-                                "Login with Google",
-                                style: TextStyles.buttontext1,
-                              ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(width: 37)
-                      ],
-                    ),
-                    style: ButtonStyles.button3,
-                  ),
-                ),
-
                 SizedBox(height: 10),
+
+                // Text("Or Login With"),
+
+                // SizedBox(height: 20),
+
+                // Container(
+                //   width: double.infinity,
+                //   child: ElevatedButton(
+                //     onPressed: () {
+
+                //       googleSignIn();
+                //     },
+                //     child: Row(
+                //       children: <Widget>[
+                //         SvgPicture.asset(
+                //           "assets/icons/google.svg",
+                //           width: 25,
+                //         ),
+                //         SizedBox(width: 12),
+                //         Expanded(
+                //           child: Container(
+                //             padding: EdgeInsets.fromLTRB(0, 7.5, 0, 7.5),
+                //             decoration: BoxDecoration(
+                //               border: Border(
+                //                   left: BorderSide(
+                //                       color: Colors.white, width: 0.25)),
+                //             ),
+                //             child: Center(
+                //               child: Text(
+                //                 "Login with Google",
+                //                 style: TextStyles.buttontext1,
+                //               ),
+                //             ),
+                //           ),
+                //         ),
+                //         SizedBox(width: 37)
+                //       ],
+                //     ),
+                //     style: ButtonStyles.button3,
+                //   ),
+                // ),
+
+                // SizedBox(height: 10),
 
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,

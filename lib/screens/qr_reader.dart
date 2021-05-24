@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -5,6 +6,7 @@ import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:shopscan/screens/login.dart';
 import 'package:shopscan/screens/qr_generate.dart';
 import 'package:shopscan/services/firebase/auth_services.dart';
+import 'package:shopscan/services/firebase/firestore_services.dart';
 import 'package:shopscan/styles/button_styles.dart';
 import 'package:shopscan/styles/colours.dart';
 
@@ -58,9 +60,9 @@ class _QrReaderState extends State<QrReader> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
-                  if (result != null) Text(
-                      // Barcode Type: ${describeEnum(result!.format)}
-                      'Data: ${result!.code}') else Text('Scan a code!'),
+                  result != null
+                      ? Text('Data: ${result!.code}')
+                      : Text('Scan a code!'),
                   Row(
                     // mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -172,7 +174,11 @@ class _QrReaderState extends State<QrReader> {
     setState(() {
       this.controller = controller;
     });
-    controller.scannedDataStream.listen((scanData) {
+    // ignore: cancel_subscriptions
+    StreamSubscription? scanListener;
+    scanListener = controller.scannedDataStream.listen((scanData) {
+      FirestoreServices.onScan(scanData.code);
+      scanListener!.cancel();
       setState(() {
         result = scanData;
       });
