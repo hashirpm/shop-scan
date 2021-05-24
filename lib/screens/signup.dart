@@ -281,7 +281,7 @@ class _SignUpState extends State<SignUp> {
                       scale: 1.3,
                       child: Checkbox(
                         value: _isVaccinated,
-                        shape: CircleBorder(),
+                        // shape: CircleBorder(),
                         checkColor: Colors.brown,
                         activeColor: Colors.white,
                         onChanged: (bool? value) {

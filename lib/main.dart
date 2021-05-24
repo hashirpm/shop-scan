@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:shopscan/screens/login.dart';
 import 'package:shopscan/screens/qr_generate.dart';
 import 'package:shopscan/screens/qr_reader.dart';
+import 'package:shopscan/screens/recent_visits.dart';
+import 'package:shopscan/screens/your_shop.dart';
 import 'package:shopscan/screens/signup.dart';
 import 'screens/errorpg.dart';
 import 'screens/splash.dart';
@@ -49,6 +51,8 @@ class MyApp extends StatelessWidget {
         GenerateQr.routeName: (ctx) => GenerateQr(),
         SignUp.routeName: (ctx) => SignUp(),
         LogIn.routeName: (ctx) => LogIn(),
+        RecentVisits.routeName: (ctx) => RecentVisits(),
+        YourShop.routeName: (ctx) => YourShop(),
       },
     );
   }
