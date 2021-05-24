@@ -5,6 +5,8 @@ import 'package:shopscan/screens/login.dart';
 import 'package:shopscan/screens/qr_generate.dart';
 import 'package:shopscan/screens/qr_reader.dart';
 import 'package:shopscan/screens/signup.dart';
+import 'package:shopscan/screens/success.dart';
+import 'package:shopscan/screens/visits.dart';
 import 'screens/errorpg.dart';
 import 'screens/splash.dart';
 void main() {
@@ -50,6 +52,8 @@ class MyApp extends StatelessWidget {
 GenerateQr.routeName:(ctx)=>GenerateQr(),
 SignUp.routeName:(ctx)=>SignUp(),
 LogIn.routeName:(ctx)=>LogIn(),
+SuccessScreen.routeName:(ctx)=>SuccessScreen(),
+MyVisits.routeName:(ctx)=>MyVisits()
       },
     );
   }

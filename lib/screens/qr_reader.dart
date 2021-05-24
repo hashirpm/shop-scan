@@ -1,10 +1,14 @@
 import 'dart:io';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:shopscan/screens/login.dart';
 import 'package:shopscan/screens/qr_generate.dart';
+import 'package:shopscan/screens/success.dart';
+import 'package:shopscan/screens/visits.dart';
 import 'package:shopscan/services/firebase/auth_services.dart';
+import 'package:shopscan/services/firebase/firestore_services.dart';
 import 'package:shopscan/styles/button_styles.dart';
 import 'package:shopscan/styles/colours.dart';
 
@@ -15,6 +19,7 @@ class QrReader extends StatefulWidget {
 }
 
 class _QrReaderState extends State<QrReader> {
+  String uid = FirebaseAuth.instance.currentUser!.uid.toString();
   Barcode? result;
   QRViewController? controller;
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
@@ -57,10 +62,13 @@ class _QrReaderState extends State<QrReader> {
               fit: BoxFit.contain,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  if (result != null) Text(
-                      // Barcode Type: ${describeEnum(result!.format)}
-                      'Data: ${result!.code}') else Text('Scan a code!'),
+                
+                      // if(result!=null){
+                      //   FirestoreServices.visitLog(result!.code)
+                      // }
+                      children: <Widget>[
+                  if (result != null) 
+                
                   Row(
                     // mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -138,6 +146,17 @@ class _QrReaderState extends State<QrReader> {
                           child: Text('Generate QR',
                               style: TextStyle(fontSize: 20)),
                         ),
+                      ),
+                       Container(
+                        margin: EdgeInsets.all(8),
+                        child: ElevatedButton(
+                          onPressed: () async {
+                            Navigator.of(context)
+                                .pushNamed(MyVisits.routeName);
+                          },
+                          child: Text('My visits',
+                              style: TextStyle(fontSize: 20)),
+                        ),
                       )
                     ],
                   ),
@@ -173,12 +192,17 @@ class _QrReaderState extends State<QrReader> {
       this.controller = controller;
     });
     controller.scannedDataStream.listen((scanData) {
-      setState(() {
+      setState(() async{
         result = scanData;
+        await controller.pauseCamera();
+        FirestoreServices.visitLog(result!.code);
+          Navigator.of(context).pushReplacementNamed(SuccessScreen.routeName);
       });
     });
   }
+void addLog(result){
 
+}
   @override
   void dispose() {
     controller?.dispose();

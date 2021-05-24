@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -49,6 +50,40 @@ abstract class FirestoreServices {
     } catch (e) {
       print(e);
       return false;
+    }
+  }
+  static Future<bool> visitLog(String id) async {
+    try {
+      CollectionReference visits = _firestore.collection('Visits');
+      FirebaseAuth auth = FirebaseAuth.instance;
+      String uid = auth.currentUser!.uid.toString();
+      visits.add({'user': uid, 'shopid': id,'time':DateTime.now()});
+      return true;
+    } on Exception catch (e) {
+      print(e);
+      return false;
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+  static Future<bool> getMyVisits() async {
+    try {
+      Map<dynamic,dynamic>? res;
+      CollectionReference visits = _firestore.collection('Visits');
+      FirebaseAuth auth = FirebaseAuth.instance;
+      String uid = auth.currentUser!.uid.toString();
+      print(uid);
+       QuerySnapshot<Object?> snapshot = await visits.where(
+            "user",
+            isEqualTo: uid,
+          ).get();
+          
+         
+return true;
+    } catch (e) {
+      print(e);
+      throw e;
     }
   }
 
