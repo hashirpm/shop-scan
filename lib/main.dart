@@ -4,25 +4,26 @@ import 'package:flutter/material.dart';
 import 'package:shopscan/screens/login.dart';
 import 'package:shopscan/screens/qr_generate.dart';
 import 'package:shopscan/screens/qr_reader.dart';
+import 'package:shopscan/screens/recent_visits.dart';
+import 'package:shopscan/screens/your_shop.dart';
 import 'package:shopscan/screens/signup.dart';
 import 'screens/errorpg.dart';
 import 'screens/splash.dart';
+
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-    final Future<FirebaseApp> _initialization = Firebase.initializeApp();
+  final Future<FirebaseApp> _initialization = Firebase.initializeApp();
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-  
     return MaterialApp(
       title: 'Perfect QR',
       theme: ThemeData(
-        
         primarySwatch: Colors.blue,
       ),
       debugShowCheckedModeBanner: false,
@@ -36,9 +37,9 @@ class MyApp extends StatelessWidget {
 
           // Success
           if (snapshot.connectionState == ConnectionState.done) {
-              final FirebaseAuth _auth = FirebaseAuth.instance;
+            final FirebaseAuth _auth = FirebaseAuth.instance;
 
-            return _auth.currentUser!=null?QrReader(): LogIn();
+            return _auth.currentUser != null ? QrReader() : LogIn();
           }
 
           // Loading
@@ -46,13 +47,13 @@ class MyApp extends StatelessWidget {
         },
       ),
       routes: {
-        QrReader.routeName:(ctx)=>QrReader(),
-GenerateQr.routeName:(ctx)=>GenerateQr(),
-SignUp.routeName:(ctx)=>SignUp(),
-LogIn.routeName:(ctx)=>LogIn(),
+        QrReader.routeName: (ctx) => QrReader(),
+        GenerateQr.routeName: (ctx) => GenerateQr(),
+        SignUp.routeName: (ctx) => SignUp(),
+        LogIn.routeName: (ctx) => LogIn(),
+        RecentVisits.routeName: (ctx) => RecentVisits(),
+        YourShop.routeName: (ctx) => YourShop(),
       },
     );
   }
 }
-
-
