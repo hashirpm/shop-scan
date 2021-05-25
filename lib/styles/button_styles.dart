@@ -25,6 +25,18 @@ abstract class ButtonStyles {
     backgroundColor: MaterialStateProperty.all(Color.fromRGBO(106, 147, 71, 1)),
   );
 
+  static ButtonStyle button2brown = ButtonStyle(
+    elevation: MaterialStateProperty.all(5),
+    shadowColor: MaterialStateProperty.all(Colors.brown),
+    padding: MaterialStateProperty.all(EdgeInsets.all(15)),
+    shape: MaterialStateProperty.all(
+      RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
+      ),
+    ),
+    backgroundColor: MaterialStateProperty.all(Colors.brown),
+  );
+
   static ButtonStyle button3 = ButtonStyle(
     elevation: MaterialStateProperty.all(5),
     shadowColor: MaterialStateProperty.all(Color.fromRGBO(225, 160, 103, 1)),
