@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:shopscan/screens/login.dart';
 import 'package:shopscan/screens/qr_generate.dart';
@@ -37,22 +38,10 @@ class _QrReaderState extends State<QrReader> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Scan the Code"),
+        title: Text("Scan QR Code"),
         backgroundColor: Colors.black,
         elevation: 0,
         toolbarHeight: 80,
-        leading: TextButton(
-          child: CircleAvatar(
-            backgroundColor: Colors.blue,
-            radius: 23,
-            child: Icon(Icons.login, color: Colors.black),
-          ),
-          onPressed: () async {
-            await AuthServices.signOut();
-            Navigator.of(context).pushReplacementNamed(LogIn.routeName);
-            setState(() {});
-          },
-        ),
       ),
       body: Column(
         children: <Widget>[
@@ -141,8 +130,10 @@ class _QrReaderState extends State<QrReader> {
                             Navigator.of(context)
                                 .pushNamed(GenerateQr.routeName);
                           },
-                          child: Text('Generate QR',
-                              style: TextStyle(fontSize: 20)),
+                          child: Text(
+                            'View your QR',
+                            style: GoogleFonts.poppins(fontSize: 16),
+                          ),
                         ),
                       )
                     ],
@@ -152,74 +143,6 @@ class _QrReaderState extends State<QrReader> {
             ),
           )
         ],
-      ),
-      endDrawer: Drawer(
-        elevation: 16,
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: [
-            DrawerHeader(
-              padding: EdgeInsets.all(16.0),
-              child: CircleAvatar(
-                backgroundColor: Colors.black,
-              ),
-            ),
-            Text(
-              FirebaseAuth.instance.currentUser!.displayName!,
-              style: TextStyle(
-                fontSize: 30,
-              ),
-              textAlign: TextAlign.center,
-            ),
-            Divider(
-              thickness: 3,
-            ),
-            TextButton(
-              onPressed: () async {
-                await Navigator.of(context).pushNamed(RecentVisits.routeName);
-              },
-              child: Text("Your Recent Visits"),
-              style: TextButton.styleFrom(
-                  primary: Colors.white, backgroundColor: Colors.blue[600]),
-              // options: FFButtonOptions(
-              //   width: double.infinity,
-              //   height: 40,
-              //   color: FlutterFlowTheme.primaryColor,
-              //   textStyle: FlutterFlowTheme.subtitle2.override(
-              //     fontFamily: 'Poppins',
-              //     color: Colors.white,
-              //   ),
-              //   borderSide: BorderSide(
-              //     color: Colors.transparent,
-              //     width: 1,
-              //   ),
-              //   borderRadius: 0,
-              // ),
-            ),
-            TextButton(
-              onPressed: () async {
-                await Navigator.of(context).pushNamed(YourShop.routeName);
-              },
-              child: Text("Your Shop"),
-              style: TextButton.styleFrom(
-                  primary: Colors.white, backgroundColor: Colors.blue[600]),
-              // options: FFButtonOptions(
-              //   width: double.infinity,
-              //   height: 40,
-              //   color: FlutterFlowTheme.primaryColor,
-              //   textStyle: FlutterFlowTheme.subtitle2.override(
-              //     fontFamily: 'Poppins',
-              //     color: Colors.white,
-              //   ),
-              //   borderSide: BorderSide(
-              //     color: Colors.transparent,
-              //     width: 1,
-              //   ),
-              //   borderRadius: 0,
-              // ),
-            ),
-          ],
-        ),
       ),
     );
   }

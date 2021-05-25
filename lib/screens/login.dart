@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+// import 'package:flutter_svg/flutter_svg.dart';
+import 'package:shopscan/screens/home.dart';
 import 'package:shopscan/screens/qr_reader.dart';
 import 'package:shopscan/services/firebase/auth_services.dart';
 import 'package:shopscan/services/misc/overlays.dart';
@@ -78,7 +79,7 @@ class _LogInState extends State<LogIn> {
       print("Logged in");
       ShowToast.toast1("Logged In");
       // route to home
-      Navigator.of(context).pushReplacementNamed(QrReader.routeName);
+      Navigator.of(context).pushReplacementNamed(HomePage.routeName);
     } else {
       print("error");
 

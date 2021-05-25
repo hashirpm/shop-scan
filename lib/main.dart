@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:shopscan/screens/home.dart';
 import 'package:shopscan/screens/login.dart';
 import 'package:shopscan/screens/qr_generate.dart';
 import 'package:shopscan/screens/qr_reader.dart';
@@ -39,7 +40,7 @@ class MyApp extends StatelessWidget {
           if (snapshot.connectionState == ConnectionState.done) {
             final FirebaseAuth _auth = FirebaseAuth.instance;
 
-            return _auth.currentUser != null ? QrReader() : LogIn();
+            return _auth.currentUser != null ? HomePage() : LogIn();
           }
 
           // Loading
@@ -47,6 +48,7 @@ class MyApp extends StatelessWidget {
         },
       ),
       routes: {
+        HomePage.routeName: (ctx) => HomePage(),
         QrReader.routeName: (ctx) => QrReader(),
         GenerateQr.routeName: (ctx) => GenerateQr(),
         SignUp.routeName: (ctx) => SignUp(),

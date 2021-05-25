@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pretty_qr_code/pretty_qr_code.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
+// ignore: must_be_immutable
 class GenerateQr extends StatelessWidget {
   static const routeName = '/generate-qr';
   String uid = FirebaseAuth.instance.currentUser!.uid;

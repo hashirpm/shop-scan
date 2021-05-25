@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shopscan/screens/home.dart';
 // import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shopscan/screens/qr_reader.dart';
 import 'package:shopscan/services/firebase/auth_services.dart';
@@ -83,7 +84,7 @@ class _SignUpState extends State<SignUp> {
       print("Signed Up");
       ShowToast.toast1("Account Created");
       // route to home
-      Navigator.of(context).pushReplacementNamed(QrReader.routeName);
+      Navigator.of(context).pushReplacementNamed(HomePage.routeName);
     } else {
       print("error");
       setState(() {
@@ -99,7 +100,7 @@ class _SignUpState extends State<SignUp> {
       print("Signed Up");
       ShowToast.toast1("Account Created");
       // route to home
-      Navigator.of(context).pushReplacementNamed(QrReader.routeName);
+      Navigator.of(context).pushReplacementNamed(HomePage.routeName);
     }
   }
 

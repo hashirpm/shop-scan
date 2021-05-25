@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -61,16 +62,12 @@ abstract class FirestoreServices {
     }
   }
 
-  static Future<Map?> getUserData() async {
+  static Future<Map?> getUserData(String uid) async {
     try {
       CollectionReference users = _firestore.collection('Users');
-      DocumentSnapshot snapshot = await users.doc(_auth.currentUser!.uid).get();
+      DocumentSnapshot snapshot = await users.doc(uid).get();
 
       Map? data = snapshot.data() as Map?;
-      if (data != null)
-        data['displayName'] = _auth.currentUser!.displayName;
-      else
-        data = {'displayName': _auth.currentUser!.displayName};
 
       return data;
     } catch (e) {
@@ -92,6 +89,40 @@ abstract class FirestoreServices {
       });
       ShowToast.toast1("Added to your recent visits");
       Vibration.vibrate(amplitude: 255);
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
+
+  static Future getYourVisits() async {
+    try {
+      CollectionReference users = _firestore.collection('Users');
+      QuerySnapshot snapshot = await users
+          .doc(_auth.currentUser!.uid)
+          .collection('YouVisited')
+          .get();
+
+      List? data = snapshot.docs.map((doc) => doc.data()).toList();
+
+      return data;
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
+
+  static Future getVisitedYou() async {
+    try {
+      CollectionReference users = _firestore.collection('Users');
+      QuerySnapshot snapshot = await users
+          .doc(_auth.currentUser!.uid)
+          .collection('VisitedYou')
+          .get();
+
+      List? data = snapshot.docs.map((doc) => doc.data()).toList();
+
+      return data;
     } catch (e) {
       print(e);
       return null;
