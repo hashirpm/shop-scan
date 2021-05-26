@@ -22,8 +22,7 @@ BFH/recBXrX5hbymUhOQX/2021
 
 ## Libraries used
 Flutter 
-
-## How to configure
+Firebase
 
 ## How to Run
 **Step 1:**
