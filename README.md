@@ -20,9 +20,13 @@ BFH/recBXrX5hbymUhOQX/2021
 4. User can simply mark their footprints by scanning a QR code.
 5. History of visitors and personal visits.
 
+## Technologies used
+1. Flutter
+2. Firebase
+
 ## Libraries used
-Flutter 
-Firebase
+1. qr_code_scanner: ^0.4.0
+2. pretty_qr_code: ^2.0.1
 
 ## How to Run
 **Step 1:**
