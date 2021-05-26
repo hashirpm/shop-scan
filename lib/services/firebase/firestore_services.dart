@@ -46,7 +46,9 @@ abstract class FirestoreServices {
         'name': username,
         'phone': int.parse(phone),
         'pin': int.parse(pin),
-        'vaccinated': vaccinated
+        'vaccinated': vaccinated,
+        'photoName': null,
+        'photoUrl': null
       });
     } on Exception catch (e) {
       print(e);
@@ -140,6 +142,32 @@ abstract class FirestoreServices {
           .collection('VisitedYou')
           .orderBy('time', descending: true)
           .limit(20)
+          .get();
+
+      List? data = snapshot.docs.map((doc) => doc.data()).toList();
+
+      return data;
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
+
+  static Future getVisitedYouOn(DateTime day) async {
+    Timestamp time = Timestamp.fromDate(day);
+    DateTime thisDay = time.toDate().subtract(DateTime.now().timeZoneOffset);
+    DateTime nextDay = thisDay.add(Duration(hours: 24));
+    Timestamp timeToday = Timestamp.fromDate(thisDay);
+    Timestamp timeTomorrow = Timestamp.fromDate(nextDay);
+
+    try {
+      CollectionReference users = _firestore.collection('Users');
+      QuerySnapshot snapshot = await users
+          .doc(_auth.currentUser!.uid)
+          .collection('VisitedYou')
+          .where('time', isGreaterThanOrEqualTo: timeToday)
+          .where('time', isLessThan: timeTomorrow)
+          .orderBy('time', descending: true)
           .get();
 
       List? data = snapshot.docs.map((doc) => doc.data()).toList();

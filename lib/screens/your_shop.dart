@@ -21,7 +21,7 @@ class _YourShopState extends State<YourShop> {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
-              children: [Text('Shop', style: TextStyle(fontSize: 20.0))]),
+              children: [Text('People', style: TextStyle(fontSize: 20.0))]),
         ),
         Padding(
           padding: const EdgeInsets.all(8.0),

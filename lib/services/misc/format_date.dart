@@ -9,4 +9,16 @@ abstract class FormatDate {
       ),
     );
   }
+
+  static type2(DateTime time) {
+    return DateFormat('yMMMMd').format(time);
+  }
+
+  static type3(Timestamp timestamp) {
+    return DateFormat('jm').format(
+      DateTime.parse(
+        timestamp.toDate().toString(),
+      ),
+    );
+  }
 }
