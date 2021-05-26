@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:shopscan/screens/forgot_password.dart';
 import 'package:shopscan/screens/home.dart';
 import 'package:shopscan/screens/login.dart';
 import 'package:shopscan/screens/qr_generate.dart';
@@ -18,7 +19,6 @@ void main() {
 
 class MyApp extends StatelessWidget {
   final Future<FirebaseApp> _initialization = Firebase.initializeApp();
-
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -55,6 +55,7 @@ class MyApp extends StatelessWidget {
         LogIn.routeName: (ctx) => LogIn(),
         RecentVisits.routeName: (ctx) => RecentVisits(),
         YourShop.routeName: (ctx) => YourShop(),
+        ForgotPassword.routeName: (ctx) => ForgotPassword(),
       },
     );
   }

@@ -37,6 +37,8 @@ dependencies:
   vibration: ^1.7.4-nullsafety.0
   google_fonts: ^2.1.0
   table_calendar: ^3.0.0
+  path_provider: ^2.0.2
+  qr_flutter: ^4.0.0
 
   # firebase dependencies
   firebase_core: ^1.1.0
