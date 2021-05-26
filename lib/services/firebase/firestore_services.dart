@@ -69,6 +69,8 @@ abstract class FirestoreServices {
 
       Map? data = snapshot.data() as Map?;
 
+      // print(data);
+
       return data;
     } catch (e) {
       print(e);
