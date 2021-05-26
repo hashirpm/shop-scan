@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shopscan/services/firebase/firestore_services.dart';
+import 'package:shopscan/services/misc/format_date.dart';
 
 class YourShop extends StatefulWidget {
   static const routeName = '/your-shop';
@@ -20,7 +21,7 @@ class _YourShopState extends State<YourShop> {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
-              children: [Text('Shop', style: TextStyle(fontSize: 20.0))]),
+              children: [Text('People', style: TextStyle(fontSize: 20.0))]),
         ),
         Padding(
           padding: const EdgeInsets.all(8.0),
@@ -48,7 +49,8 @@ class _YourShopState extends State<YourShop> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Column(children: [
-                Text(data[i]['time'], style: TextStyle(fontSize: 20.0))
+                Text(FormatDate.type1(data[i]['time']),
+                    style: TextStyle(fontSize: 20.0))
               ]),
             ),
           ],

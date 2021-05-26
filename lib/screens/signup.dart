@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:shopscan/screens/home.dart';
-// import 'package:flutter_svg/flutter_svg.dart';
-import 'package:shopscan/screens/qr_reader.dart';
 import 'package:shopscan/services/firebase/auth_services.dart';
 import 'package:shopscan/services/misc/overlays.dart';
 import 'package:shopscan/services/misc/toast.dart';
@@ -108,6 +106,10 @@ class _SignUpState extends State<SignUp> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: Colors.black),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
         backgroundColor: Colors.white,
         shadowColor: Colors.transparent,
       ),

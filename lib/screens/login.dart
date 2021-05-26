@@ -1,7 +1,5 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shopscan/screens/forgot_password.dart';
-// import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shopscan/screens/home.dart';
 import 'package:shopscan/screens/qr_reader.dart';
 import 'package:shopscan/services/firebase/auth_services.dart';
@@ -19,8 +17,6 @@ class LogIn extends StatefulWidget {
 }
 
 class _LogInState extends State<LogIn> {
-  @override
-
   // for viewing password
   bool _visible = true;
 
@@ -41,8 +37,6 @@ class _LogInState extends State<LogIn> {
   // controllers
   TextEditingController _emailCtrl = TextEditingController();
   TextEditingController _passwordCtrl = TextEditingController();
-
-  set currentFocus(FocusScopeNode currentFocus) {}
 
   // form validation
   void validate() {

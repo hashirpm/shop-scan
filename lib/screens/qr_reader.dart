@@ -1,18 +1,11 @@
 import 'dart:async';
 import 'dart:io';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/foundation.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
-import 'package:shopscan/screens/login.dart';
 import 'package:shopscan/screens/qr_generate.dart';
-import 'package:shopscan/screens/recent_visits.dart';
-import 'package:shopscan/screens/your_shop.dart';
-import 'package:shopscan/services/firebase/auth_services.dart';
 import 'package:shopscan/services/firebase/firestore_services.dart';
-import 'package:shopscan/styles/button_styles.dart';
-import 'package:shopscan/styles/colours.dart';
 
 class QrReader extends StatefulWidget {
   static const routeName = '/qr-reader';
@@ -21,9 +14,11 @@ class QrReader extends StatefulWidget {
 }
 
 class _QrReaderState extends State<QrReader> {
-  Barcode? result;
+  String result = "Scan a code!";
   QRViewController? controller;
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
+  // ignore: cancel_subscriptions
+  StreamSubscription? scanListener;
 
   @override
   void reassemble() {
@@ -32,6 +27,36 @@ class _QrReaderState extends State<QrReader> {
       controller!.pauseCamera();
     }
     controller!.resumeCamera();
+  }
+
+  void onScan(String uid) async {
+    Map? user = await FirestoreServices.getUserData(uid);
+    if (user != null) {
+      scanListener!.cancel();
+      setState(() {
+        result = user['name'];
+      });
+      await FirestoreServices.onScan(uid);
+      Future.delayed(
+        Duration(seconds: 1),
+        () {
+          Navigator.pop(context);
+        },
+      );
+    } else {
+      setState(() {
+        result = "Invalid QR. Try again";
+      });
+      scanListener!.resume();
+      Future.delayed(
+        Duration(seconds: 2),
+        () {
+          setState(() {
+            result = "Scan a code!";
+          });
+        },
+      );
+    }
   }
 
   @override
@@ -53,9 +78,7 @@ class _QrReaderState extends State<QrReader> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
-                  result != null
-                      ? Text('Data: ${result!.code}')
-                      : Text('Scan a code!'),
+                  Text(result),
                   Row(
                     // mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -169,14 +192,10 @@ class _QrReaderState extends State<QrReader> {
     setState(() {
       this.controller = controller;
     });
-    // ignore: cancel_subscriptions
-    StreamSubscription? scanListener;
+
     scanListener = controller.scannedDataStream.listen((scanData) {
-      FirestoreServices.onScan(scanData.code);
-      scanListener!.cancel();
-      setState(() {
-        result = scanData;
-      });
+      scanListener!.pause();
+      onScan(scanData.code);
     });
   }
 

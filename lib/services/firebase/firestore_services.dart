@@ -1,13 +1,6 @@
-import 'dart:convert';
-import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:vibration/vibration.dart';
-import 'package:intl/intl.dart';
-import 'package:shopscan/services/firebase/storage_services.dart';
-import 'package:shopscan/services/misc/filter_data.dart';
-import 'package:shopscan/services/misc/overlays.dart';
 import 'package:shopscan/services/misc/toast.dart';
 
 abstract class FirestoreServices {
@@ -53,7 +46,9 @@ abstract class FirestoreServices {
         'name': username,
         'phone': int.parse(phone),
         'pin': int.parse(pin),
-        'vaccinated': vaccinated
+        'vaccinated': vaccinated,
+        'photoName': null,
+        'photoUrl': null
       });
     } on Exception catch (e) {
       print(e);
@@ -69,8 +64,6 @@ abstract class FirestoreServices {
 
       Map? data = snapshot.data() as Map?;
 
-      // print(data);
-
       return data;
     } catch (e) {
       print(e);
@@ -83,11 +76,11 @@ abstract class FirestoreServices {
       CollectionReference users = _firestore.collection('Users');
       await users.doc(_auth.currentUser!.uid).collection('YouVisited').add({
         'uid': scanUid,
-        'time': DateFormat('yMMMMd').format(DateTime.now())
+        'time': FieldValue.serverTimestamp(),
       });
       await users.doc(scanUid).collection('VisitedYou').add({
         'uid': _auth.currentUser!.uid,
-        'time': DateFormat('yMMMMd').format(DateTime.now())
+        'time': FieldValue.serverTimestamp(),
       });
       ShowToast.toast1("Added to your recent visits");
       Vibration.vibrate(amplitude: 255);
@@ -103,11 +96,38 @@ abstract class FirestoreServices {
       QuerySnapshot snapshot = await users
           .doc(_auth.currentUser!.uid)
           .collection('YouVisited')
+          .orderBy('time', descending: true)
+          .limit(20)
           .get();
 
       List? data = snapshot.docs.map((doc) => doc.data()).toList();
 
       return data;
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
+
+  static Future getYourLastVisit() async {
+    try {
+      CollectionReference users = _firestore.collection('Users');
+      QuerySnapshot snapshot = await users
+          .doc(_auth.currentUser!.uid)
+          .collection('YouVisited')
+          .orderBy('time', descending: true)
+          .limit(1)
+          .get();
+
+      List? dataLast = snapshot.docs.map((doc) => doc.data()).toList();
+
+      if (dataLast.isNotEmpty) {
+        Map? data = await getUserData(dataLast[0]['uid']);
+
+        return data;
+      } else {
+        return null;
+      }
     } catch (e) {
       print(e);
       return null;
@@ -120,6 +140,34 @@ abstract class FirestoreServices {
       QuerySnapshot snapshot = await users
           .doc(_auth.currentUser!.uid)
           .collection('VisitedYou')
+          .orderBy('time', descending: true)
+          .limit(20)
+          .get();
+
+      List? data = snapshot.docs.map((doc) => doc.data()).toList();
+
+      return data;
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
+
+  static Future getVisitedYouOn(DateTime day) async {
+    Timestamp time = Timestamp.fromDate(day);
+    DateTime thisDay = time.toDate().subtract(DateTime.now().timeZoneOffset);
+    DateTime nextDay = thisDay.add(Duration(hours: 24));
+    Timestamp timeToday = Timestamp.fromDate(thisDay);
+    Timestamp timeTomorrow = Timestamp.fromDate(nextDay);
+
+    try {
+      CollectionReference users = _firestore.collection('Users');
+      QuerySnapshot snapshot = await users
+          .doc(_auth.currentUser!.uid)
+          .collection('VisitedYou')
+          .where('time', isGreaterThanOrEqualTo: timeToday)
+          .where('time', isLessThan: timeTomorrow)
+          .orderBy('time', descending: true)
           .get();
 
       List? data = snapshot.docs.map((doc) => doc.data()).toList();

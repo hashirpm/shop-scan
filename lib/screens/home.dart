@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shopscan/components/calendar.dart';
+import 'package:shopscan/components/latest_visit.dart';
 import 'package:shopscan/screens/login.dart';
 import 'package:shopscan/screens/qr_generate.dart';
 import 'package:shopscan/screens/qr_reader.dart';
@@ -17,6 +18,10 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  void refresh(dynamic value) {
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -105,104 +110,63 @@ class _HomePageState extends State<HomePage> {
           decoration: BoxDecoration(
             color: Color(0xFFEEEEEE),
           ),
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              Padding(
-                padding: EdgeInsets.fromLTRB(20, 20, 20, 20),
-                child: Row(
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(0, 2, 0, 0),
-                      child: TextButton(
-                        onPressed: () {
-                          Navigator.of(context).pushNamed(QrReader.routeName);
-                        },
-                        child: Text(
-                          'Scan a QR',
-                          style: GoogleFonts.poppins(color: Colors.white),
-                        ),
-                        style: ButtonStyles.button2,
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(0, 2, 0, 0),
-                      child: TextButton(
-                        onPressed: () {
-                          Navigator.of(context).pushNamed(GenerateQr.routeName);
-                        },
-                        child: Text(
-                          'Show my QR',
-                          style: GoogleFonts.poppins(color: Colors.white),
-                        ),
-                        style: ButtonStyles.button2,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.fromLTRB(30, 10, 30, 10),
-                child: Card(
-                  clipBehavior: Clip.antiAliasWithSaveLayer,
-                  color: Color(0xFFF5F5F5),
-                  elevation: 10,
-                  child: Container(
-                    width: double.infinity,
-                    height: 100,
-                    decoration: BoxDecoration(
-                      color: Color(0xFFEEEEEE),
-                    ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.fromLTRB(15, 5, 5, 5),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                Padding(
+                  padding: EdgeInsets.fromLTRB(20, 20, 20, 20),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(0, 2, 0, 0),
+                        child: TextButton(
+                          onPressed: () {
+                            Navigator.of(context)
+                                .pushNamed(QrReader.routeName)
+                                .then(refresh);
+                          },
                           child: Text(
-                            'Last visit: ',
-                            style: GoogleFonts.poppins(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
-                            ),
+                            'Scan a QR',
+                            style: GoogleFonts.poppins(color: Colors.white),
                           ),
+                          style: ButtonStyles.button2,
                         ),
-                        Padding(
-                          padding: EdgeInsets.fromLTRB(0, 0, 20, 0),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.max,
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
-                                child: Text(
-                                  'Chanthu\'s Kada',
-                                  style: GoogleFonts.poppins(
-                                    fontSize: 20,
-                                  ),
-                                ),
-                              ),
-                              Text(
-                                'Phno: 9876543210',
-                                style: GoogleFonts.poppins(),
-                              ),
-                              Text(
-                                'Pin code: 610829',
-                                style: GoogleFonts.poppins(),
-                              )
-                            ],
+                      ),
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(0, 2, 0, 0),
+                        child: TextButton(
+                          onPressed: () {
+                            Navigator.of(context)
+                                .pushNamed(GenerateQr.routeName)
+                                .then(refresh);
+                          },
+                          child: Text(
+                            'Show my QR',
+                            style: GoogleFonts.poppins(color: Colors.white),
                           ),
-                        )
-                      ],
-                    ),
+                          style: ButtonStyles.button2,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-              ),
-              Container(
-                child: Calendar(),
-              )
-            ],
+                Padding(
+                  padding: EdgeInsets.fromLTRB(30, 10, 30, 10),
+                  child: Card(
+                    clipBehavior: Clip.antiAliasWithSaveLayer,
+                    color: Color(0xFFF5F5F5),
+                    elevation: 10,
+                    child: LatestVisit(),
+                  ),
+                ),
+                Container(
+                  child: Calendar(),
+                )
+              ],
+            ),
           ),
         ),
       ),
