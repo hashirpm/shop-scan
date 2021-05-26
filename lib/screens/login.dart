@@ -1,4 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:shopscan/screens/forgot_password.dart';
 // import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shopscan/screens/home.dart';
 import 'package:shopscan/screens/qr_reader.dart';
@@ -17,6 +19,8 @@ class LogIn extends StatefulWidget {
 }
 
 class _LogInState extends State<LogIn> {
+  @override
+
   // for viewing password
   bool _visible = true;
 
@@ -232,7 +236,9 @@ class _LogInState extends State<LogIn> {
                 Container(
                   width: double.infinity,
                   child: TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.of(context).pushNamed(ForgotPassword.routeName);
+                    },
                     child: Text(
                       "Forgot password?",
                       style: TextStyle(color: Colors.blue),
@@ -309,4 +315,31 @@ class _LogInState extends State<LogIn> {
       ),
     );
   }
+
+  // Widget forgotPassword() {
+
+  //   return Column(
+  //     children: [
+  //       TextFormField(
+  //         controller: _emailCtrl,
+  //         decoration: InputStyles.email,
+  //         cursorColor: Colors.brown,
+  //         keyboardType: TextInputType.emailAddress,
+  //         validator: _validateLogin ? (value) => _emailMsg : Validate.email,
+  //       ),
+  //       Container(
+  //         width: double.infinity,
+  //         child: TextButton(
+  //           onPressed: () {
+  //             resetPassword(_emailCtrl.text);
+  //           },
+  //           child: Text(
+  //             "Forgot password?",
+  //             style: TextStyle(color: Colors.blue),
+  //           ),
+  //         ),
+  //       ),
+  //     ],
+  //   );
+  // }
 }
