@@ -19,8 +19,6 @@ class LogIn extends StatefulWidget {
 }
 
 class _LogInState extends State<LogIn> {
-  @override
-
   // for viewing password
   bool _visible = true;
 
@@ -41,8 +39,6 @@ class _LogInState extends State<LogIn> {
   // controllers
   TextEditingController _emailCtrl = TextEditingController();
   TextEditingController _passwordCtrl = TextEditingController();
-
-  set currentFocus(FocusScopeNode currentFocus) {}
 
   // form validation
   void validate() {

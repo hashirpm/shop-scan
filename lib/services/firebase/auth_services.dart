@@ -7,7 +7,7 @@ abstract class AuthServices {
   static GoogleSignIn _googleSignIn = GoogleSignIn();
 
   static Future logIn(String email, String password) async {
-    var authInfo = {"email": true, "password": true};
+    Map authInfo = {"email": true, "password": true};
     try {
       await _auth.signInWithEmailAndPassword(email: email, password: password);
       return authInfo;
@@ -34,7 +34,7 @@ abstract class AuthServices {
     String pin,
     bool? vaccinated,
   ) async {
-    var authInfo = {"email": true};
+    Map authInfo = {"email": true};
     try {
       await _auth.createUserWithEmailAndPassword(
         email: email,
@@ -46,6 +46,24 @@ abstract class AuthServices {
     } on FirebaseAuthException catch (e) {
       if (e.code == 'email-already-in-use') {
         print('The account already exists for that email.');
+        authInfo['email'] = false;
+        return authInfo;
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  static Future resetPassword(String email) async {
+    Map authInfo = {"email": true};
+    try {
+      await FirebaseAuth.instance.sendPasswordResetEmail(
+        email: email,
+      );
+      return authInfo;
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        print('No account exists for that email.');
         authInfo['email'] = false;
         return authInfo;
       }

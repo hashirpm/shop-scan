@@ -83,11 +83,11 @@ abstract class FirestoreServices {
       CollectionReference users = _firestore.collection('Users');
       await users.doc(_auth.currentUser!.uid).collection('YouVisited').add({
         'uid': scanUid,
-        'time': DateFormat('yMMMMd').format(DateTime.now())
+        'time': FieldValue.serverTimestamp(),
       });
       await users.doc(scanUid).collection('VisitedYou').add({
         'uid': _auth.currentUser!.uid,
-        'time': DateFormat('yMMMMd').format(DateTime.now())
+        'time': FieldValue.serverTimestamp(),
       });
       ShowToast.toast1("Added to your recent visits");
       Vibration.vibrate(amplitude: 255);

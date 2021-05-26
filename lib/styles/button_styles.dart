@@ -40,7 +40,7 @@ abstract class ButtonStyles {
   static ButtonStyle button3 = ButtonStyle(
     elevation: MaterialStateProperty.all(5),
     shadowColor: MaterialStateProperty.all(Color.fromRGBO(225, 160, 103, 1)),
-    padding: MaterialStateProperty.all(EdgeInsets.fromLTRB(15, 7.5, 15, 7.5)),
+    padding: MaterialStateProperty.all(EdgeInsets.all(15)),
     shape: MaterialStateProperty.all(
       RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10),
