@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:shopscan/services/firebase/auth_services.dart';
 import 'package:shopscan/services/misc/overlays.dart';
-import 'package:shopscan/services/misc/toast.dart';
 import 'package:shopscan/services/misc/validate.dart';
 import 'package:shopscan/styles/button_styles.dart';
 import 'package:shopscan/styles/input_styles.dart';
 import 'package:shopscan/styles/text_styles.dart';
-
-import 'login.dart';
 
 class ForgotPassword extends StatefulWidget {
   static const routeName = '/forgot_password';

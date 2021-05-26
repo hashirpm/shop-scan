@@ -1,7 +1,5 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shopscan/screens/forgot_password.dart';
-// import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shopscan/screens/home.dart';
 import 'package:shopscan/screens/qr_reader.dart';
 import 'package:shopscan/services/firebase/auth_services.dart';

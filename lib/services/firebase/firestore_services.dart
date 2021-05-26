@@ -1,13 +1,6 @@
-import 'dart:convert';
-import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:vibration/vibration.dart';
-import 'package:intl/intl.dart';
-import 'package:shopscan/services/firebase/storage_services.dart';
-import 'package:shopscan/services/misc/filter_data.dart';
-import 'package:shopscan/services/misc/overlays.dart';
 import 'package:shopscan/services/misc/toast.dart';
 
 abstract class FirestoreServices {

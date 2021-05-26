@@ -1,18 +1,10 @@
 import 'dart:async';
 import 'dart:io';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
-import 'package:shopscan/screens/login.dart';
 import 'package:shopscan/screens/qr_generate.dart';
-import 'package:shopscan/screens/recent_visits.dart';
-import 'package:shopscan/screens/your_shop.dart';
-import 'package:shopscan/services/firebase/auth_services.dart';
 import 'package:shopscan/services/firebase/firestore_services.dart';
-import 'package:shopscan/styles/button_styles.dart';
-import 'package:shopscan/styles/colours.dart';
 
 class QrReader extends StatefulWidget {
   static const routeName = '/qr-reader';
