@@ -4,9 +4,9 @@
 Shop Scan is a simple application for marking user footprints built using Flutter framework. Any user can create an account at ease and use the service. 
 
 ## Team members
-1. Abil Savio [https://github.com/ByteCrak07]
-2. Niranjan Neelakandan [https://github.com/itsniranjan]
-3. Muhammed Hashir PM [https://github.com/hashirpm]
+1. [Abil Savio](https://github.com/ByteCrak07)
+2. [Niranjan Neelakandan](https://github.com/itsniranjan)
+3. [Muhammed Hashir PM](https://github.com/hashirpm)
 
 ## Team Id
 BFH/recBXrX5hbymUhOQX/2021
