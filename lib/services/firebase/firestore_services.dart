@@ -62,8 +62,6 @@ abstract class FirestoreServices {
 
       Map? data = snapshot.data() as Map?;
 
-      // print(data);
-
       return data;
     } catch (e) {
       print(e);
@@ -96,11 +94,38 @@ abstract class FirestoreServices {
       QuerySnapshot snapshot = await users
           .doc(_auth.currentUser!.uid)
           .collection('YouVisited')
+          .orderBy('time', descending: true)
+          .limit(20)
           .get();
 
       List? data = snapshot.docs.map((doc) => doc.data()).toList();
 
       return data;
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
+
+  static Future getYourLastVisit() async {
+    try {
+      CollectionReference users = _firestore.collection('Users');
+      QuerySnapshot snapshot = await users
+          .doc(_auth.currentUser!.uid)
+          .collection('YouVisited')
+          .orderBy('time', descending: true)
+          .limit(1)
+          .get();
+
+      List? dataLast = snapshot.docs.map((doc) => doc.data()).toList();
+
+      if (dataLast.isNotEmpty) {
+        Map? data = await getUserData(dataLast[0]['uid']);
+
+        return data;
+      } else {
+        return null;
+      }
     } catch (e) {
       print(e);
       return null;
@@ -113,6 +138,8 @@ abstract class FirestoreServices {
       QuerySnapshot snapshot = await users
           .doc(_auth.currentUser!.uid)
           .collection('VisitedYou')
+          .orderBy('time', descending: true)
+          .limit(20)
           .get();
 
       List? data = snapshot.docs.map((doc) => doc.data()).toList();
