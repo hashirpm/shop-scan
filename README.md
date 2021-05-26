@@ -5,7 +5,7 @@ Shop Scan is a simple application for marking user footprints built using Flutte
 
 ## Team members
 1. [Abil Savio](https://github.com/ByteCrak07)
-2. [Niranjan Neelakandan](https://github.com/itsniranjan)
+2. [Niranjan Neelakantan](https://github.com/itsniranjan)
 3. [Muhammed Hashir PM](https://github.com/hashirpm)
 
 ## Team Id
