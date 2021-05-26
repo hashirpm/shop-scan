@@ -41,14 +41,13 @@ class _ForgotPasswordState extends State<ForgotPassword> {
     );
     try {
       await _auth.signInWithEmailAndPassword(
-          email: email, password: 'samplePwd');
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'user-not-found') {
-        print('No user found for that email.');
-        ShowToast.toast1("This email is not registered with us!");
-      } else {
-        ShowToast.toast1("Check your email");
-      }
+        email: email,
+        password: 'samplePwd',
+      );
+      ShowToast.toast1("Check your email");
+    } catch (e) {
+      ShowToast.toast1("This email is not registered with us!");
+      print(e);
     }
   }
 
